@@ -1,0 +1,58 @@
+{
+  "name": "defiled",
+  "description": "Class wrapper for interacting with file paths.",
+  "version": "1.0.0",
+  "main": "lib/defiled.js",
+  "scripts": {
+    "test": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tandrewnichols/defiled.git"
+  },
+  "keywords": [
+    "file",
+    "path",
+    "directory",
+    "extension",
+    "filename",
+    "filepath",
+    "absolute",
+    "relative"
+  ],
+  "author": {
+    "name": "Andrew Nichols",
+    "email": "tandrewnichols@gmail.com",
+    "url": "www.tandrewnichols.me"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tandrewnichols/defiled/issues"
+  },
+  "homepage": "https://github.com/tandrewnichols/defiled",
+  "dependencies": {
+    "lodash": "^3.10.1"
+  },
+  "devDependencies": {
+    "coffee-script": "^1.10.0",
+    "file-manifest": "^1.0.3",
+    "gulp": "^3.9.0",
+    "gulp-codeclimate-reporter": "^1.2.0",
+    "gulp-debug": "^2.1.2",
+    "gulp-istanbul": "^0.10.3",
+    "gulp-jshint": "^2.0.0",
+    "gulp-mocha": "^2.2.0",
+    "gulp-open": "^1.0.0",
+    "gulp-sequence": "^0.4.1",
+    "gulp-spawn-mocha": "^2.2.1",
+    "jshint": "^2.9.1-rc1",
+    "jshint-stylish": "^2.1.0",
+    "mocha": "^2.3.4",
+    "mocha-given": "^0.1.3",
+    "proxyquire": "^1.7.3",
+    "rimraf": "^2.4.4",
+    "should": "^8.0.1",
+    "should-sinon": "0.0.3",
+    "sinon": "^1.17.2"
+  }
+}
