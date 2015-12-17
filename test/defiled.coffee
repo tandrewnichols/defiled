@@ -5,22 +5,31 @@ describe 'defiled', ->
   Given -> sinon.stub process, 'cwd'
   Given -> @subject = require '../lib/defiled'
 
+  describe 'static methods', ->
+    describe '.register', ->
+      When -> @subject.register 'bigKebab', (word) -> word.replace(/\//g, '--')
+      Then -> new @subject().transformers.bigKebab.should.be.a.Function()
+
+    describe '.mixin', ->
+      When -> @subject.mixin bigKebab: (word) -> word.replace(/\//g, '--')
+      Then -> new @subject().transformers.bigKebab.should.be.a.Function()
+
   describe 'directory provided', ->
     Given -> @file = new @subject 'fruits/banana.js', '/foo/bar/baz'
 
-    describe '.filename', ->
+    describe '#filename', ->
       Then -> @file.filename().should.eql 'banana.js'
 
-    describe '.name', ->
+    describe '#name', ->
       Then -> @file.name().should.eql 'banana'
 
-    describe '.ext', ->
+    describe '#ext', ->
       Then -> @file.ext().should.eql '.js'
 
-    describe '.path', ->
+    describe '#path', ->
       Then -> @file.path().should.eql 'fruits'
 
-    describe '.relative', ->
+    describe '#relative', ->
       context 'name', ->
         Then -> @file.relative({ name: false }).should.eql 'fruits'
 
@@ -63,13 +72,15 @@ describe 'defiled', ->
 
         context 'custom transform via register', ->
           When -> @file.register('bigSnake', (word) -> word.replace(/\//g, '__'))
-          Then -> @file.relative({ transform: 'bigSnake' }).should.eql 'fruits__banana'
+          Then ->
+            @file.relative({ transform: 'bigSnake' }).should.eql 'fruits__banana'
+            (typeof new @subject().transformers.bigSnake).should.eql 'undefined'
 
         context 'custom transform via mixin', ->
           When -> @file.mixin(bigSnake: (word) -> word.replace(/\//g, '__'))
           Then -> @file.relative({ transform: 'bigSnake' }).should.eql 'fruits__banana'
 
-    describe 'absolute', ->
+    describe '#absolute', ->
       context 'name', ->
         Then -> @file.absolute({ name: false }).should.eql '/foo/bar/baz/fruits'
 
@@ -118,26 +129,66 @@ describe 'defiled', ->
           When -> @file.mixin(bigSnake: (word) -> word.replace(/\//g, '__'))
           Then -> @file.absolute({ transform: 'bigSnake', name: false }).should.eql 'foo__bar__baz__fruits'
 
-    describe 'parent', ->
-      Then -> @file.parent().should.eql '/foo/bar/baz'
-        
+    describe '#parent', ->
+      context 'no opts', ->
+        Then -> @file.parent().should.eql '/foo/bar/baz'
+
+      context 'as array', ->
+        Then -> @file.parent({ array: true }).should.eql ['foo', 'bar', 'baz']
+
+      context 'transform', ->
+        context 'camelCase', ->
+          Then -> @file.parent({ transform: 'camel' }).should.eql 'fooBarBaz'
+
+        context 'dash', ->
+          Then -> @file.parent({ transform: 'kebab' }).should.eql 'foo-bar-baz'
+
+        context 'underscore', ->
+          Then -> @file.parent({ transform: 'snake' }).should.eql 'foo_bar_baz'
+
+        context 'human', ->
+          Then -> @file.parent({ transform: 'capitalize' }).should.eql 'Foo bar baz'
+
+        context 'title', ->
+          Then -> @file.parent({ transform: 'bookCase' }).should.eql 'Foo Bar Baz'
+
+        context 'pipe', ->
+          Then -> @file.parent({ transform: 'pipe' }).should.eql 'foo|bar|baz'
+          
+        context 'class', ->
+          Then -> @file.parent({ transform: 'class' }).should.eql 'FooBarBaz'
+
+        context 'lower', ->
+          Then -> @file.parent({ transform: 'lower' }).should.eql 'foobarbaz'
+          
+        context 'upper', ->
+          Then -> @file.parent({ transform: 'upper' }).should.eql 'FOOBARBAZ'
+
+        context 'custom transform via register', ->
+          When -> @file.register('bigSnake', (word) -> word.replace(/\//g, '__'))
+          Then -> @file.parent({ transform: 'bigSnake' }).should.eql 'foo__bar__baz'
+
+        context 'custom transform via mixin', ->
+          When -> @file.mixin(bigSnake: (word) -> word.replace(/\//g, '__'))
+          Then -> @file.parent({ transform: 'bigSnake' }).should.eql 'foo__bar__baz'
+          
   describe 'no directory provided', ->
     Given -> process.cwd.returns '/foo/bar/baz'
     Given -> @file = new @subject 'fruits/banana.js'
 
-    describe '.filename', ->
+    describe '#filename', ->
       Then -> @file.filename().should.eql 'banana.js'
 
-    describe '.name', ->
+    describe '#name', ->
       Then -> @file.name().should.eql 'banana'
 
-    describe '.ext', ->
+    describe '#ext', ->
       Then -> @file.ext().should.eql '.js'
 
-    describe '.path', ->
+    describe '#path', ->
       Then -> @file.path().should.eql 'fruits'
 
-    describe '.relative', ->
+    describe '#relative', ->
       context 'name', ->
         Then -> @file.relative({ name: false }).should.eql 'fruits'
 
@@ -186,7 +237,7 @@ describe 'defiled', ->
           When -> @file.mixin(bigSnake: (word) -> word.replace(/\//g, '__'))
           Then -> @file.relative({ transform: 'bigSnake' }).should.eql 'fruits__banana'
 
-    describe 'absolute', ->
+    describe '#absolute', ->
       context 'name', ->
         Then -> @file.absolute({ name: false }).should.eql '/foo/bar/baz/fruits'
 
@@ -235,5 +286,45 @@ describe 'defiled', ->
           When -> @file.mixin(bigSnake: (word) -> word.replace(/\//g, '__'))
           Then -> @file.absolute({ transform: 'bigSnake', name: false }).should.eql 'foo__bar__baz__fruits'
 
-    describe 'parent', ->
-      Then -> @file.parent().should.eql '/foo/bar/baz'
+    describe '#parent', ->
+      context 'no opts', ->
+        Then -> @file.parent().should.eql '/foo/bar/baz'
+
+      context 'as array', ->
+        Then -> @file.parent({ array: true }).should.eql ['foo', 'bar', 'baz']
+
+      context 'transform', ->
+        context 'camelCase', ->
+          Then -> @file.parent({ transform: 'camel' }).should.eql 'fooBarBaz'
+
+        context 'dash', ->
+          Then -> @file.parent({ transform: 'kebab' }).should.eql 'foo-bar-baz'
+
+        context 'underscore', ->
+          Then -> @file.parent({ transform: 'snake' }).should.eql 'foo_bar_baz'
+
+        context 'human', ->
+          Then -> @file.parent({ transform: 'capitalize' }).should.eql 'Foo bar baz'
+
+        context 'title', ->
+          Then -> @file.parent({ transform: 'bookCase' }).should.eql 'Foo Bar Baz'
+
+        context 'pipe', ->
+          Then -> @file.parent({ transform: 'pipe' }).should.eql 'foo|bar|baz'
+          
+        context 'class', ->
+          Then -> @file.parent({ transform: 'class' }).should.eql 'FooBarBaz'
+
+        context 'lower', ->
+          Then -> @file.parent({ transform: 'lower' }).should.eql 'foobarbaz'
+          
+        context 'upper', ->
+          Then -> @file.parent({ transform: 'upper' }).should.eql 'FOOBARBAZ'
+
+        context 'custom transform via register', ->
+          When -> @file.register('bigSnake', (word) -> word.replace(/\//g, '__'))
+          Then -> @file.parent({ transform: 'bigSnake' }).should.eql 'foo__bar__baz'
+
+        context 'custom transform via mixin', ->
+          When -> @file.mixin(bigSnake: (word) -> word.replace(/\//g, '__'))
+          Then -> @file.parent({ transform: 'bigSnake' }).should.eql 'foo__bar__baz'
