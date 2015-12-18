@@ -51,3 +51,6 @@ describe 'transformers', ->
 
   describe 'upper', ->
     Then -> @subject.upper('foo/bar').should.eql 'FOOBAR'
+
+  describe 'dot', ->
+    Then -> @subject.dot('foo/bar-baz').should.eql 'foo.barBaz'

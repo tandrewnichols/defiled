@@ -70,6 +70,9 @@ describe 'defiled', ->
         context 'upper', ->
           Then -> @file.relative({ transform: 'upper' }).should.eql 'FRUITSBANANA'
 
+        context 'dot', ->
+          Then -> @file.relative({ transform: 'dot' }).should.eql 'fruits.banana'
+
         context 'custom transform via register', ->
           When -> @file.register('bigSnake', (word) -> word.replace(/\//g, '__'))
           Then ->
@@ -121,6 +124,9 @@ describe 'defiled', ->
         context 'upper', ->
           Then -> @file.absolute({ transform: 'upper', name: false }).should.eql 'FOOBARBAZFRUITS'
 
+        context 'dot', ->
+          Then -> @file.absolute({ transform: 'dot', name: false }).should.eql 'foo.bar.baz.fruits'
+
         context 'custom transform via register', ->
           When -> @file.register('bigSnake', (word) -> word.replace(/\//g, '__'))
           Then -> @file.absolute({ transform: 'bigSnake', name: false }).should.eql 'foo__bar__baz__fruits'
@@ -163,6 +169,9 @@ describe 'defiled', ->
           
         context 'upper', ->
           Then -> @file.parent({ transform: 'upper' }).should.eql 'FOOBARBAZ'
+
+        context 'dot', ->
+          Then -> @file.parent({ transform: 'dot' }).should.eql 'foo.bar.baz'
 
         context 'custom transform via register', ->
           When -> @file.register('bigSnake', (word) -> word.replace(/\//g, '__'))
@@ -229,6 +238,9 @@ describe 'defiled', ->
         context 'upper', ->
           Then -> @file.relative({ transform: 'upper' }).should.eql 'FRUITSBANANA'
 
+        context 'dot', ->
+          Then -> @file.relative({ transform: 'dot' }).should.eql 'fruits.banana'
+
         context 'custom transform via register', ->
           When -> @file.register('bigSnake', (word) -> word.replace(/\//g, '__'))
           Then -> @file.relative({ transform: 'bigSnake' }).should.eql 'fruits__banana'
@@ -278,6 +290,9 @@ describe 'defiled', ->
         context 'upper', ->
           Then -> @file.absolute({ transform: 'upper', name: false }).should.eql 'FOOBARBAZFRUITS'
 
+        context 'dot', ->
+          Then -> @file.absolute({ transform: 'dot', name: false }).should.eql 'foo.bar.baz.fruits'
+
         context 'custom transform via register', ->
           When -> @file.register('bigSnake', (word) -> word.replace(/\//g, '__'))
           Then -> @file.absolute({ transform: 'bigSnake', name: false }).should.eql 'foo__bar__baz__fruits'
@@ -320,6 +335,9 @@ describe 'defiled', ->
           
         context 'upper', ->
           Then -> @file.parent({ transform: 'upper' }).should.eql 'FOOBARBAZ'
+
+        context 'dot', ->
+          Then -> @file.parent({ transform: 'dot' }).should.eql 'foo.bar.baz'
 
         context 'custom transform via register', ->
           When -> @file.register('bigSnake', (word) -> word.replace(/\//g, '__'))

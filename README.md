@@ -89,6 +89,7 @@ Additionally, you can pass `{ transform: 'name' }` to transform the path. The av
 * class
 * lower
 * upper
+* dot
 
 Also note that `{ ext: false }` is implied when using a transform. The extension will never be included in the transformed path.
 
@@ -102,6 +103,7 @@ file.relative({ transform: 'pipe' }); // fruits|banana
 file.relative({ transform: 'class' }); // FruitsBanana
 file.relative({ transform: 'lower' }); // fruitsbanana
 file.relative({ transform: 'upper' }); // FRUITSBANANA
+file.relative({ transform: 'dot' }); // fruits.banana
 ```
 
 #### File#absolute
@@ -180,7 +182,7 @@ You do also have access to the transformers directly via `File.transformers.name
 
 ```
 File.transformers.camelCase('foo-bar-baz'); // fooBarBaz
-File.transformers.pipe('foo-bar-baz'); // foo-bar-baz, since this is transformer splits on '/'
+File.transformers.pipe('foo-bar-baz'); // foo-bar-baz, since this transformer splits on '/'
 ```
 
 ## Contributing
