@@ -346,3 +346,7 @@ describe 'defiled', ->
         context 'custom transform via mixin', ->
           When -> @file.mixin(bigSnake: (word) -> word.replace(/\//g, '__'))
           Then -> @file.parent({ transform: 'bigSnake' }).should.eql 'foo__bar__baz'
+
+  describe 'absolute file path', ->
+    When -> @file = new @subject '/foo/bar/baz/banana.js', '/foo/bar'
+    Then -> @file._file.should.eql 'baz/banana.js'
