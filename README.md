@@ -134,7 +134,7 @@ Register a custom transformer for this file instance. This takes a name and a fu
 
 ```
 file.register('bigSnake', function(path) {
-  return path.replace(/\//g, '__');
+  return path.replace(/\W/g, '__');
 });
 file.relative({ transform: 'bigSnake' }); // 'fruits__banana'
 ```
@@ -146,7 +146,7 @@ Register multiple custom transformers for this file instance at the same time. T
 ```
 file.mixin({
   bigSnake: function(path) {
-    return path.replace(/\//g, '__');
+    return path.replace(/\W/g, '__');
   }
 });
 file.relative({ transform: 'bigSnake' }); // 'fruits__banana'
@@ -158,7 +158,7 @@ Just like `File#register`, but registers the transformer for all future file ins
 
 ```
 File.register('bigKebab', function(path) {
-  return path.replace(/\//g, '--');
+  return path.replace(/\W/g, '--');
 });
 new File('fruits/banana.js').relative({ transform: 'bigKebab' }); // fruits--banana
 ```
@@ -170,7 +170,7 @@ Just like `File#mixin`, but registers the transformer for all future file instan
 ```
 File.mixin({
   bigKebab: function(path) {
-    return path.replace(/\//g, '--');
+    return path.replace(/\W/g, '--');
   }
 });
 new File('fruits/banana.js').relative({ transform: 'bigKebab' }); // fruits--banana
@@ -178,11 +178,11 @@ new File('fruits/banana.js').relative({ transform: 'bigKebab' }); // fruits--ban
 
 #### Transformers
 
-You do also have access to the transformers directly via `File.transformers.nameOfTransformer` (or on an instance via `file.transformers.nameOfTransformer`). Most of these are written to expect a path with slashes in them, though some of them call through to lodash methods and will accept anything that those accept. For instance:
+You do also have access to the transformers directly via `File.transformers.nameOfTransformer` (or on an instance via `file.transformers.nameOfTransformer`), which you can use to transform non-path strings as well.
 
 ```
 File.transformers.camelCase('foo-bar-baz'); // fooBarBaz
-File.transformers.pipe('foo-bar-baz'); // foo-bar-baz, since this transformer splits on '/'
+File.transformers.pipe('foo-bar-baz'); // foo|bar|baz
 ```
 
 ## Contributing
