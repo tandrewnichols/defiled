@@ -5,13 +5,10 @@ install:
 script:
   - "gulp travis"
 node_js:
-  - "0.10"
-  - "0.12"
   - "4"
   - "5"
-  - "iojs-v1"
-  - "iojs-v2"
-  - "iojs-v3"
+  - "6"
+  - "7"
 cache:
   directories:
     - 'node_modules'
