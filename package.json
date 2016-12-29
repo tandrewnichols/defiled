@@ -55,5 +55,8 @@
     "should": "^11.1.2",
     "should-sinon": "0.0.5",
     "sinon": "^1.17.6"
+  },
+  "engines": {
+    "node": ">=4"
   }
 }
