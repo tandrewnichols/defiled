@@ -4,7 +4,8 @@
   "version": "2.0.1",
   "main": "lib/defiled.js",
   "scripts": {
-    "test": "gulp"
+    "test": "gulp",
+    "travis": "gulp travis"
   },
   "repository": {
     "type": "git",
@@ -39,6 +40,7 @@
     "eslint-codeframe-formatter": "^1.0.2",
     "file-manifest": "^2.0.4",
     "gulp": "^3.9.1",
+    "gulp-cli": "^1.2.2",
     "gulp-codeclimate-reporter": "^1.2.0",
     "gulp-debug": "^3.0.0",
     "gulp-eslint": "^3.0.1",
