@@ -1,7 +1,7 @@
 {
   "name": "defiled",
   "description": "Class wrapper for interacting with file paths.",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "main": "lib/defiled.js",
   "scripts": {
     "test": "gulp",
